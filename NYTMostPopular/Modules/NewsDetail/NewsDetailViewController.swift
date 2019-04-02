@@ -28,8 +28,6 @@ class NewsDetailViewController: UIViewController, WKUIDelegate {
     }
     
     func viewSetup() {
-        let myURL = URL(string:"https://www.apple.com")
-        //let myRequest = URLRequest(url: myURL!)
         let myRequest = URLRequest(url: url)
         webView.load(myRequest)
     }
