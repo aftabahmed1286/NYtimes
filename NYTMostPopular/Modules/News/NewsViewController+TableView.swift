@@ -10,6 +10,10 @@ import UIKit
 
 extension NewsViewController: UITableViewDelegate, UITableViewDataSource {
     
+    //**************************************************
+    // MARK: - Methods
+    //**************************************************
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let data = allNewsData else {
             return 0

@@ -10,6 +10,10 @@ import UIKit
 
 class NewsViewController: BaseViewController {
 
+    //**************************************************
+    // MARK: - Constants
+    //**************************************************
+    
     enum Constants {
         static let articleCellId = "NYArticleCell"
         static let storyboardName = "Main"
@@ -22,9 +26,21 @@ class NewsViewController: BaseViewController {
         static let nyTimesURLString = "https://api.nytimes.com/svc/mostpopular/v2/mostviewed/all-sections"
     }
     
+    //**************************************************
+    // MARK: - IBOutlets
+    //**************************************************
+    
     @IBOutlet weak var newsHeadlinesTableView: UITableView!
     
+    //**************************************************
+    // MARK: - Variables
+    //**************************************************
+    
     var allNewsData: [NewsModel]?
+    
+    //**************************************************
+    // MARK: - Methods
+    //**************************************************
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +54,7 @@ class NewsViewController: BaseViewController {
     }
     
     func callNewsData() {
-        showActivityIndicator() //"https://api.nytimes.com/svc/mostpopular/v2/mostviewed/all-sections/1.json?api-key=EafVnFG3bA3MfHJ3AThGxMrsAyaUzPLV"
+        showActivityIndicator()
         let urlString = "\(Constants.nyTimesURLString)/\(Constants.oneFarJson)?api-key=\(Constants.apiKey)"
         guard let url = URL(string: urlString) else {
             return

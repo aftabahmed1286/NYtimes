@@ -11,8 +11,16 @@ import WebKit
 
 class NewsDetailViewController: UIViewController, WKUIDelegate {
     
+    //**************************************************
+    // MARK: - Variables
+    //**************************************************
+    
     var webView: WKWebView!
     var url: URL!
+    
+    //**************************************************
+    // MARK: - Methods
+    //**************************************************
     
     override func viewDidLoad() {
         super.viewDidLoad()

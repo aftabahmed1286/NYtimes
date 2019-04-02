@@ -10,12 +10,19 @@ import UIKit
 
 class NYArticleCell: UITableViewCell {
     
+    //**************************************************
+    // MARK: - IBOutlets
+    //**************************************************
+    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var byLineLabel: UILabel!
     @IBOutlet weak var publishedDateLabel: UILabel!
     @IBOutlet weak var viewsLabel: UILabel!
-    
     @IBOutlet weak var articleImageView: UIImageView!
+    
+    //**************************************************
+    // MARK: - Methods
+    //**************************************************
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -27,6 +34,5 @@ class NYArticleCell: UITableViewCell {
         self.publishedDateLabel.text = model.publishedDate
         self.viewsLabel.text = "Views: \(model.views)"
     }
-    
 }
 
