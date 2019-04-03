@@ -86,7 +86,6 @@ class NewsViewController: BaseViewController {
             print("Model formation Error")
             return
         }
-        print(json)
         guard let results = json["results"] as? [[String: Any]] else {
             return
         }
@@ -100,7 +99,6 @@ class NewsViewController: BaseViewController {
             }
             table.reloadData()
         }
-        print(newsData)
     }
 }
 
