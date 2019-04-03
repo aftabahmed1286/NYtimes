@@ -10,10 +10,50 @@ import XCTest
 @testable import NYTMostPopular
 
 class NYTMostPopularTests: XCTestCase {
+    
+    enum Constants {
+        static let storyboardName = "Main"
+        static let newsVCID = "NewsVCID"
+        static let newsDetailVCId = "NewsDetailVC"
+    }
 
+    var newsVC: NewsViewController?
+    var newsDetailVC: NewsDetailViewController?
+    
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        guard let newsVC = UIStoryboard(name: Constants.storyboardName, bundle: nil).instantiateViewController(withIdentifier: Constants.newsVCID) as? NewsViewController else {
+            return
+        }
+        self.newsVC = newsVC
         
+        guard let newsDetailVC = UIStoryboard(name: Constants.storyboardName, bundle: nil).instantiateViewController(withIdentifier: Constants.newsDetailVCId) as? NewsDetailViewController else {
+            return
+        }
+        self.newsDetailVC = newsDetailVC
+    }
+    
+    func testCallAPI() {
+        self.newsVC?.callNewsData()
+        sleep(7)
+        guard let _ = self.newsVC?.allNewsData else {
+            XCTAssert(false, "Network Error")
+            return
+        }
+        XCTAssert(true, "Data Loaded")
+    }
+    
+    func testNewsDetail() {
+        self.newsVC?.callNewsData()
+        sleep(7)
+        guard let allNewsData = self.newsVC?.allNewsData else {
+            print("Network Error")
+            return
+        }
+        if !allNewsData.isEmpty {
+            self.newsVC?.showNewsDetailViewController(forInt: 0)
+            XCTAssert(true, "Data Loaded")
+        }
     }
 
     override func tearDown() {

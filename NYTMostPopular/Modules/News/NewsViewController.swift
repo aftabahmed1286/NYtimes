@@ -95,7 +95,10 @@ class NewsViewController: BaseViewController {
         }
         self.allNewsData = newsData
         DispatchQueue.main.async {
-            self.newsHeadlinesTableView.reloadData()
+            guard let table = self.newsHeadlinesTableView else {
+                return
+            }
+            table.reloadData()
         }
         print(newsData)
     }

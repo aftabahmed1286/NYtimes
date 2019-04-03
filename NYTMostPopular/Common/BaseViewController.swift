@@ -24,13 +24,13 @@ class BaseViewController: UIViewController {
         
         alert.view.addSubview(loadingIndicator)
         DispatchQueue.main.async {
-            self.present(alert, animated: true, completion: nil)
+            UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
         }
     }
     
     func hideActivityIndicator() {
         DispatchQueue.main.async {
-            self.dismiss(animated: false, completion: nil)
+            UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: false, completion: nil)
         }
     }
     
