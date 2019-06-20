@@ -64,6 +64,7 @@ class NewsViewController: BaseViewController {
         let task = URLSession.shared.dataTask(with: request) {data, response, error -> Void in
             //Exit if error
             self.hideActivityIndicator()
+            let jsonDecoder = JSONDecoder()
             guard let resposeData = data,
                 error == nil  else {
                     print(error?.localizedDescription ?? "Response Error")
@@ -71,8 +72,8 @@ class NewsViewController: BaseViewController {
             }
             //Parsing
             do {
-                let jsonResponse = try JSONSerialization.jsonObject(with: resposeData, options: [])
-                self.loadNewsData(jsonResponse: jsonResponse)
+                let newsResponseModel = try jsonDecoder.decode(NewsResponseModel.self, from: resposeData)
+                self.loadNewsData(newsData: newsResponseModel.newsData!)
                 
             } catch let parsingError {
                 print("Error : \(parsingError)")
@@ -81,17 +82,7 @@ class NewsViewController: BaseViewController {
         task.resume()
     }
     
-    func loadNewsData(jsonResponse: Any) {
-        guard let json = jsonResponse as? [String: Any] else {
-            print("Model formation Error")
-            return
-        }
-        guard let results = json["results"] as? [[String: Any]] else {
-            return
-        }
-        let newsData = results.compactMap{
-            NewsModel($0)
-        }
+    func loadNewsData(newsData: [NewsModel]) {
         self.allNewsData = newsData
         DispatchQueue.main.async {
             guard let table = self.newsHeadlinesTableView else {
@@ -100,5 +91,6 @@ class NewsViewController: BaseViewController {
             table.reloadData()
         }
     }
+    
 }
 

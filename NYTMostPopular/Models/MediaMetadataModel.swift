@@ -8,17 +8,33 @@
 
 import Foundation
 
-struct MediaMetadataModel {
-    var url: URL
-    var format: String
-    var height: Double
-    var width: Double
+struct MediaMetadataModel: Codable {
+    var url: URL?
+    var format: String?
+    var height: Double?
+    var width: Double?
     
-    init (_ dict: [String: Any]) {
-        self.format = dict["format"] as? String ?? ""
-        self.height = dict["height"] as? Double ?? 0.0
-        self.width = dict["width"] as? Double ?? 0.0
-        let urlString = dict["url"] as? String ?? ""
-        self.url = URL(string: urlString)!
+    enum CodingKeys: String, CodingKey {
+        case format,
+        height,
+        width,
+        url
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        format = try container.decodeIfPresent(String.self, forKey: .format)
+        height = try container.decodeIfPresent(Double.self, forKey: .height)
+        width = try container.decodeIfPresent(Double.self, forKey: .width)
+        url = try container.decodeIfPresent(URL.self, forKey: .url)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(format, forKey: .format)
+        try container.encode(height, forKey: .height)
+        try container.encode(width, forKey: .width)
+        try container.encode(url, forKey: .url)
+        
     }
 }

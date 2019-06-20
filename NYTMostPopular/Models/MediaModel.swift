@@ -8,21 +8,37 @@
 
 import Foundation
 
-struct MediaModel {
-    var type: String
-    var subtype: String
-    var caption: String
-    var copyright: String
-    var medaiMetadata: [MediaMetadataModel]
+struct MediaModel: Codable {
+    var type: String?
+    var subtype: String?
+    var caption: String?
+    var copyright: String?
+    var mediaMetadata: [MediaMetadataModel]?
     
-    init(_ dict: [String: Any]) {
-        self.type = dict["type"] as? String ?? ""
-        self.subtype = dict["subtype"] as? String ?? ""
-        self.caption = dict["caption"] as? String ?? ""
-        self.copyright = dict["copyright"] as? String ?? ""
-        let mediaMetaDataJSONDict = dict["media-metadata"] as? [[String: Any]] ?? []
-        self.medaiMetadata = mediaMetaDataJSONDict.compactMap{
-            MediaMetadataModel($0)
-        }
+    enum CodingKeys: String, CodingKey {
+        case type, subtype, caption, copyright
+        case mediaMetadata = "media-metadata"
     }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.type = try container.decodeIfPresent(String.self, forKey: .type)
+        self.subtype = try container.decodeIfPresent(String.self, forKey: .subtype)
+        self.caption = try container.decodeIfPresent(String.self, forKey: .caption)
+        self.copyright = try container.decodeIfPresent(String.self, forKey: .copyright)
+        
+        self.mediaMetadata = try container.decodeIfPresent([MediaMetadataModel].self, forKey: .mediaMetadata)
+        
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.type, forKey: .type)
+        try container.encode(self.subtype, forKey: .subtype)
+        try container.encode(self.caption, forKey: .caption)
+        try container.encode(self.copyright, forKey: .copyright)
+        try container.encode(self.mediaMetadata, forKey: .mediaMetadata)
+    }
+    
 }
