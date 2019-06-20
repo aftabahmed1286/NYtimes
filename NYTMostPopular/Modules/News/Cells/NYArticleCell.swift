@@ -32,7 +32,10 @@ class NYArticleCell: UITableViewCell {
         self.titleLabel.text = model.title
         self.byLineLabel.text = model.byLine
         self.publishedDateLabel.text = model.publishedDate
-        self.viewsLabel.text = "Views: \(model.views)"
+        guard let views = model.views else {
+            return
+        }
+        self.viewsLabel.text = "Article: \(views)"
     }
 }
 
